@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>จองเต็นท์</title>
+  <!-- bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <!-- kanit font -->
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet">
+  <!-- font awesome 6.2.1 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+  <!-- sweet alert -->
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <script>
+    function body_load() {
+      const url = "http://localhost:3000/PriceCT";
+
+      fetch(url, { method: "GET" })
+        .then((r) => { return r.json() })
+        .then((res) => {
+          console.log(res)
+
+          var table = document.getElementById("tblData");
+
+          table.innerHTML = "";
+
+          for (var i = 0; i < res.length; i++) {
+            var row = table.insertRow();
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            var cell6 = row.insertCell(5);
+            var cell7 = row.insertCell(6);
+            var cell8 = row.insertCell(7);
+            var cell9 = row.insertCell(8);
+            var cell10 = row.insertCell(9);
+            var cell11 = row.insertCell(10);
+            var cell12 = row.insertCell(11);
+            var cell13 = row.insertCell(12);
+            var cell14 = row.insertCell(13);
+            const item = res[i];
+            cell1.innerHTML = `<img class="animate__animated animate__bounceInLeft" src='https://robohash.org/${item.ชื่อ_นามสกุลผู้จอง}'>`
+            cell2.innerHTML = item.id;
+            cell3.innerHTML = item.ชื่อ_นามสกุลผู้จอง;
+            cell4.innerHTML = item.เบอร์โทร;
+            cell5.innerHTML = item.ราคาเต๊นท์;
+            cell6.innerHTML = item.จำนวนเต๊นท์;
+            cell7.innerHTML = item.ราคาอุปกรณ์;
+            cell8.innerHTML = item.จำนวนอุปกรณ์;
+            cell9.innerHTML = item.ราคาผู้ใหญ่;
+            cell10.innerHTML = item.ราคาเด็ก;
+            cell11.innerHTML = item.ราคารวม;
+            cell12.innerHTML = item.วันที่เข้าพัก;
+            cell13.innerHTML = item.วันที่ออก;
+            cell14.innerHTML = "<button class='btn btn-danger' onclick='item_dele(" + item.id + ")'> ลบ </button>" + "<button class='btn btn-warning' onclick='item_edit(" + item.id + ")'> แก้ไข </button>";
+          }
+        });
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+      Toast.fire({
+        icon: 'success',
+        title: 'โหลดข้อมูลเรียบร้อย'
+      })
+    }
+    function item_dele(id) {
+      Swal.fire({
+        title: 'คุณแน่ใจหรือว่าต้องการลบรายการนี้?',
+        text: "คุณจะไม่สามารถย้อนกลับได้!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ใช่ ลบเลย!',
+        cancelButtonText: 'ยกเลิก'
+      }).then((result) => {
+        if (result.value) {
+          const url = "http://localhost:3000/PriceCT/" + id;
+
+          fetch(url, { method: "DELETE" })
+            .then(response => response.json())
+            .then(response => {
+              console.log(response);
+              body_load();
+            });
+        }
+      });
+    }
+
+    function item_edit(id) {
+      const url = "http://localhost:3000/PriceCT/" + id;
+      fetch(url, {
+        method: "GET"
+      }).then((response) => response.json())
+        .then((item) => {
+          Swal.fire({
+            title: 'แก้ไขรายการ',
+            html: `
+          <form id="edit-form">
+            <label for="name">ชื่อ-นามสกุลผู้จอง:</label><br>
+            <input type="text" id="name" name="name" value="${item.ชื่อ_นามสกุลผู้จอง}"><br><br>
+            <label for="phone">เบอร์โทร:</label><br>
+            <input type="text" id="phone" name="phone" value="${item.เบอร์โทร}"><br><br>
+          </form> 
+        `,
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ใช่ แก้ไขเลย!',
+            cancelButtonText: 'ยกเลิก'
+          }).then((result) => {
+            if (result.value) {
+              // Update the item object with the new form values
+              item.ชื่อ_นามสกุลผู้จอง = document.getElementById('name').value;
+              item.เบอร์โทร = document.getElementById('phone').value;
+
+              // Send the updated item back to the server
+              fetch(url, {
+                method: "PUT",
+                body: JSON.stringify(item),
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              }).then((response) => {
+                if (response.ok) {
+                  // If the update was successful, show a success message
+                  Swal.fire(
+                    'สำเร็จ!',
+                    'รายการถูกอัปเดตเรียบร้อยแล้ว.',
+                    'success'
+                  );
+                } else {
+                  // If the update failed, show an error message
+                  Swal.fire(
+                    'ผิดพลาด',
+                    'ล้มเหลวในการอัปเดตรายการ.',
+                    'error'
+                  );
+                }
+
+              });
+            }
+          });
+        });
+    }
+
+
+
+
+  </script>
+</head>
+<style>
+  body {
+    font-family: 'Kanit', sans-serif;
+    background: rgb(174, 224, 183);
+  }
+
+  .container {
+    padding: 20px;
+    margin-top: 50px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    background: rgb(242, 248, 237);
+    border-radius: 10px;
+  }
+
+  .btn {
+    margin: 10px;
+  }
+
+  .table {
+    width: 100%;
+  }
+
+  img {
+    width: 100px;
+    background-color: rgb(229, 217, 182);
+    border-radius: 10%;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  }
+</style>
+
+<body onload="body_load()">
+
+  <div class="container"><button id="userdata" type="button" class="btn btn-warning"><a href="main.html"
+        style="text-decoration: none; color: black;">กลับหน้าหลัก</a> </button>
+    <div class="table-responsive">
+        <table class="table table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th></th>
+          <th>ID</th>
+          <th>ชื่อ-นามสกุลผู้จอง</th>
+          <th>เบอร์โทร</th>
+          <th>ราคาเต๊นท์</th>
+          <th>จำนวนเต๊นท์</th>
+          <th>ราคาอุปกรณ์</th>
+          <th>จำนวนอุปกรณ์</th>
+          <th>ราคาผู้ใหญ่</th>
+          <th>ราคาเด็ก</th>
+          <th>ราคารวม</th>
+          <th>วันที่เข้าพัก</th>
+          <th>วันที่ออก</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="tblData">
+      </tbody>
+    </table>
+  </div>
+
+  </div>
+
+</body>
+
+</html>

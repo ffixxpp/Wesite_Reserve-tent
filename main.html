@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>จองเต็นท์</title>
+  <!-- bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <!-- kanit font -->
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet">
+  <!-- font awesome 6.2.1 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+  <!-- sweet alert -->
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
+<style>
+  body {
+    font-family: 'Kanit', sans-serif;
+    background: rgb(147, 195, 154);
+  }
+
+  .container {
+    margin-top: 80px;
+    margin-bottom: 20px;
+    padding: 0px;
+    background: #ffc107;
+    border-radius: 10px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .container .container {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 30px;
+    
+    background: rgb(215, 237, 211);
+    border-radius: 0px;
+    box-shadow: none;
+  }
+
+  nav {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #285430;
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .navbar-brand {
+    color: white;
+  }
+
+  p {
+    margin-top: 5px;
+    color: #285430;
+  }
+
+  input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  h6 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: #285430;
+  }
+
+  .banner {
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 30px;
+  }
+
+  .bar {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    
+  }
+
+  #profile {
+    border-radius: 10px;
+    background-color: rgb(229, 217, 182);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+  }
+</style>
+
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <a class="navbar-brand" href="home.html"><i class="fa-solid fa-arrow-left"></i>&nbsp;&nbsp;หน้าหลัก</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <!-- Navigation links go here -->
+      </div>
+      <button class="btn btn-warning"><a href="userdata.html"
+          style="text-decoration: none; color: black;">ข้อมูลการจอง</a></button>
+    </nav>
+    <div class="banner container">
+      <h1 class="animate__animated animate__zoomIn"><i class="fa-solid fa-tents"></i>&nbsp;&nbsp;ข้อมูลการจองเต็นท์</h1>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <img id="profile" src="https://robohash.org/none" width="100px">
+          <br>
+          <br>
+          <h6><i class="fa-solid fa-signature"></i>&nbsp;&nbsp;ชื่อ-นามสกุลผู้จอง</h6>
+          <input type="text" id="name" placeholder="ชื่อ-นามสกุล" onblur="profile()">
+          <script>
+            function profile() {
+              var x = document.getElementById("name").value;
+              if (x == "") {
+                x = "none";
+              }
+              document.getElementById("profile").src = "https://robohash.org/" + x;
+            }
+          </script>
+          <br>
+          <h6><i class="fa-solid fa-phone"></i>&nbsp;&nbsp;เบอร์โทรศัพท์ผู้จอง</h6>
+          <input type="text" id="phone" placeholder="เบอร์โทรศัพท์">
+          <br>
+          <br>
+          <select id="kid" onclick="showPrice3()">
+            <option value="0">-- จำนวนเด็กที่เข้าพักไม่เกิน 10 คน --</option>
+            <option value="10">1 คน</option>
+            <option value="20">2 คน</option>
+            <option value="30">3 คน</option>
+            <option value="40">4 คน</option>
+            <option value="50">5 คน</option>
+            <option value="60">6 คน</option>
+            <option value="70">7 คน</option>
+            <option value="80">8 คน</option>
+            <option value="90">9 คน</option>
+            <option value="100">10 คน</option>
+          </select>
+          <p><i class="fa-solid fa-child"></i>&nbsp;&nbsp;[เด็ก] ราคาค่าเข้าพัก: <span id="price3">0</span> บาท/คืน</p>
+          <script>
+            function showPrice3() {
+              var x = document.getElementById("kid").value;
+              document.getElementById("price3").innerHTML = x;
+            }
+          </script>
+          <select id="Person" onclick="showPrice2()">
+            <option value="">-- จำนวนผู้ใหญ่ที่เข้าพักไม่เกิน 10 คน --</option>
+            <option value="30">1 คน</option>
+            <option value="60">2 คน</option>
+            <option value="90">3 คน</option>
+            <option value="120">4 คน</option>
+            <option value="150">5 คน</option>
+            <option value="180">6 คน</option>
+            <option value="210">7 คน</option>
+            <option value="240">8 คน</option>
+            <option value="270">9 คน</option>
+            <option value="300">10 คน</option>
+          </select>
+          <p><i class="fa-solid fa-child-reaching"></i>&nbsp;&nbsp;[ผู้ใหญ่] ราคาค่าเข้าพัก: <span id="price2">0</span>
+            บาท/คืน</p>
+          <script>
+            function showPrice2() {
+              var x = document.getElementById("Person").value;
+              document.getElementById("price2").innerHTML = x;
+            }
+          </script>
+          <select id="mySelect">
+            <option value="0">เอาเต๊นท์มาเอง</option>
+            <option value="225">เต๊นท์ขนาด 3 คนนอน</option>
+            <option value="150">เต๊นท์ขนาด 2 คนนอน</option>
+          </select>
+          <br>
+          <input type="number" min="0" id="amout" placeholder="จำนวนเต๊นท์" onblur="showPrice1()">
+          <p><i class="fa-solid fa-tent"></i>&nbsp;&nbsp;ราคาค่าเช่า: <span id="price1">0</span> บาท/คืน</p>
+          <span id="tent"></span>
+          <script>
+            function showPrice1() {
+              var x = parseInt(document.getElementById("mySelect").value)
+              var y = parseInt(document.getElementById("amout").value)
+              document.getElementById("price1").innerHTML = x * y;
+            }
+          </script>
+          <select id="mySelect2" onclick="showPrice4()">
+            <option value="0">เอาอุปกรณ์มาเอง</option>
+            <option value="30">ถุงนอน</option>
+            <option value="20">ผ้าห่ม</option>
+            <option value="20">แผ่นรองนอน</option>
+            <option value="20">เสื่อ</option>
+            <option value="10">หมอน</option>
+            <option value="40">ผ้าใบ</option>
+          </select>
+          <br>
+          <input type="number" min="0" id="amoutt" placeholder="จำนวนอุปกรณ์ที่ยืม" onblur="showPrice4()">
+          <p><i class="fa-solid fa-toolbox"></i>&nbsp;&nbsp;ราคาค่าเช่า: <span id="price4">0</span> บาท/คืน</p>
+          <P hidden="True" id="sumprice"></P>
+          <script>
+            function showPrice4() {
+              var w = parseInt(document.getElementById("mySelect2").value)
+              var z = parseInt(document.getElementById("amoutt").value)
+              document.getElementById("price4").innerHTML = w * z;
+            }
+          </script>
+          <script>
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+            function checkinDate() {
+              const today = new Date().toISOString().split("T")[0];
+              const chkin = document.getElementById('checkin').value
+              if (chkin < today) {
+                Toast.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'วันที่ Check-in ผิด!',
+                })
+                document.getElementById('checkin').value = '';
+              }
+            }
+
+            function checkoutDate() {
+              const today = new Date().toISOString().split("T")[0];
+              const chkin = document.getElementById('checkin').value
+              const chkout = document.getElementById('checkout').value
+              if (chkout < today || chkout < chkin) {
+                Toast.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'วันที่ Check-out ผิด!',
+                })
+                document.getElementById('checkout').value = '';
+              }
+            }
+            function sumprice1() {
+              var w = parseInt(document.getElementById("mySelect2").value)
+              var x = parseInt(document.getElementById("mySelect").value)
+              var y = parseInt(document.getElementById("Person").value)
+              var z = parseInt(document.getElementById("kid").value)
+
+              var result = w + x + y + z;
+
+              console.log(x, y, z);
+              // return result;
+
+              create(result);
+              document.getElementById("sumprice").value = result;
+              if (!isNaN(result)) { }
+            }
+            function create(result) {
+
+              Swal.fire({
+                title: `ราคารวม: ${result} บาท/คืน`,
+                text: "คุณต้องการจองหรือไม่?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'จอง',
+                cancelButtonText: 'ยกเลิก'
+              }).then((result) => {
+
+                console.log("result", result);
+                if (result.value) {
+                  var mySelect = document.getElementById("mySelect").value
+                  var mySelect2 = document.getElementById("mySelect2").value
+                  var Person = document.getElementById("Person").value
+                  var kid = document.getElementById("kid").value
+                  var name = document.getElementById("name").value
+                  var checkin = document.getElementById("checkin").value
+                  var checkout = document.getElementById("checkout").value
+                  var phone = document.getElementById("phone").value
+                  var y = parseInt(document.getElementById("amout").value)
+                  var z = parseInt(document.getElementById("amoutt").value)
+                  var result = document.getElementById("sumprice").value
+
+                  console.log(mySelect, mySelect2, Person, kid, result, name, checkin, checkout, phone, y, z);
+                  const url = "http://localhost:3000/PriceCT";
+                  fetch(url, {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                      "id": null,
+                      "ชื่อ_นามสกุลผู้จอง": name,
+                      "เบอร์โทร": phone,
+                      "ราคาเต๊นท์": mySelect,
+                      "จำนวนเต๊นท์": y,
+                      "ราคาอุปกรณ์": mySelect2,
+                      "จำนวนอุปกรณ์": z,
+                      "ราคาผู้ใหญ่": Person,
+                      "ราคาเด็ก": kid,
+                      "ราคารวม": result,
+                      "วันที่เข้าพัก": checkin,
+                      "วันที่ออก": checkout
+
+                    })
+                  })  
+                    .then(response => response.json())
+                    .then(data => console.log(data))
+                    .catch(error => console.log(error))
+                    window.location.href = "./userdata.html";
+                }
+              })
+            }
+
+          </script>
+
+          <h6>Check in&nbsp;&nbsp;<input type="date" id="checkin" name="checkin" min="2023-01-04" max="2024-01-04"
+              onblur="checkinDate()">
+          </h6>
+          <h6>Check out&nbsp;&nbsp;<input type="date" id="checkout" name="checkout" min="2023-01-04" max="2024-01-04"
+              onblur="checkoutDate()"></h6>
+          <br>
+          <script>
+            function check() {
+              const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              })
+              var name = document.getElementById("name").value
+              var phone = document.getElementById("phone").value
+              var checkin = document.getElementById("checkin").value
+              var checkout = document.getElementById("checkout").value
+              var mySelect = document.getElementById("mySelect").value
+              var mySelect2 = document.getElementById("mySelect2").value
+              var Person = document.getElementById("Person").value
+              var kid = document.getElementById("kid").value
+              var amout = document.getElementById("amout").value
+              var amoutt = document.getElementById("amoutt").value
+              if (name == "" || phone == "" || checkin == "" || checkout == "" || mySelect == "" || mySelect2 == "" || Person == "" || kid == "" || amout == "" || amoutt == "") {
+                Toast.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'กรุณากรอกข้อมูลให้ครบ!',
+                })
+              }
+              else {
+                sumprice1();
+              } 
+            }
+          </script>
+          <!-- btn full width -->
+          <button class="btn btn-danger" onclick="check()">บันทึกข้อมูล</button>
+        </div>
+        <div class="bar col-sm-6">
+          <img class="animate__animated animate__zoomIn" style="border-radius: 30px; box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);" src="https://f.tpkcdn.com/review-source/3f28b421-6f38-af17-7d62-5f52464cd47e.jpg"
+                    alt="My Image" width="80%">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+</body>
+
+</html>
